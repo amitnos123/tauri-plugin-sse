@@ -36,7 +36,30 @@ SSE is a simple solution for notifications, activity feeds, live status updates,
 
 ### TypeScript/JavaScript
 
+```js
+// Create connection to server endpoint
+const source = new EventSource("https://example.com/events");
+
+// Fired when a message is received
+source.onmessage = (event) => {
+  console.log("Message from server:", event.data);
+};
+
+// Handle named event types
+source.addEventListener("ping", (event) => {
+  console.log("Ping:", event.data);
+});
+
+// Handle errors
+source.onerror = (err) => {
+  console.error("EventSource failed:", err);
+};
+```
+
 ### Rust
+
+```rust
+```
 
 ## Licenses
 
