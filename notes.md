@@ -5,6 +5,15 @@ app.emit("tauri-plugin-sse-URL", ...);
 ```
 where URL is the url
 
+When frontend set up any
+```js
+onmessage
+addEventListener
+onerror
+```
+It is an async function that waits for event to emit from tauri's backend (Rust)
+
+
 Use sse_client crate
 it has
 ```rust
