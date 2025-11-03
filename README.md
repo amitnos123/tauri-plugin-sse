@@ -18,3 +18,7 @@ SSE is a simple solution for notifications, activity feeds, live status updates,
 ### TypeScript/JavaScript
 
 ### Rust
+
+## Licenses
+
+MIT or MIT/Apache 2.0 where applicable.
