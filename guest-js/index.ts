@@ -51,7 +51,7 @@ class EventSource {
     		}
 
     		// Listen to Tauri event
-    		const unlisten = await listen(`${this.url}-${eventName}`, (e) => {
+    		const unlisten = await listen(`${eventStartName}${this.url}-${eventName}`, (e) => {
       			const msgEvent = new MessageEvent(eventName, { data: e.payload });
       		callback(msgEvent);
     	});
@@ -65,8 +65,8 @@ class EventSource {
 
     		const unlisten = this.unlistenMap[eventName];
     		if (unlisten) {
-      		await unlisten();
-      		delete this.unlistenMap[eventName];
+      			await unlisten();
+      			delete this.unlistenMap[eventName];
     		}
   	}
 }
