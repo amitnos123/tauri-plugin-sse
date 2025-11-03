@@ -15,9 +15,22 @@ SSE is a simple solution for notifications, activity feeds, live status updates,
 
 - Crate: https://crates.io/crates/tauri-plugin-sse
   - `cargo add tauri-plugin-sse`
+<!---
 - NPM Package: https://www.npmjs.com/package/tauri-plugin-sse-api
   - `npm install tauri-plugin-sse-api`
+  
+- YARN Package: 
+  - `yarn install tauri-plugin-sse-api`
 
+- PNPM Package: 
+  - `pnpm install tauri-plugin-sse-api`
+
+- DENO Package: 
+  - `deno install tauri-plugin-sse-api`
+
+- BUN Package: 
+  - `bun install tauri-plugin-sse-api`
+--->
 
 ## Usage
 
