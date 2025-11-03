@@ -1,6 +1,6 @@
 # Tauri Plugin SSE
 
-Server-Sent Events (SSE) is a web technology that allows a server to push real-time updates to a client over a long-lived HTTP connection.
+[Server-Sent Events (SSE)](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events) is a web technology that allows a server to push real-time updates to a client over a long-lived HTTP connection.
 
 It provides a lightweight, one-way communication channel, making it ideal for applications that need continuous data streaming from the backend without using [WebSockets](https://tauri.app/plugin/websocket/).
 
