@@ -1,1 +1,1 @@
-# tauri-plugin-sse
+# Tauri Plugin SSE
