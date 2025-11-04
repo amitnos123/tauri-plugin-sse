@@ -20,13 +20,22 @@ class EventSource {
 	
 	private _onmessage: EventCallback | null = null;
 	private _onerror: EventCallback | null = null;
+	private _onopen: EventCallback | null = null;
+
+  	get onmessage(): EventCallback | null {
+    		return this._onmessage;
+  	}
 
 	set onmessage(callback: EventCallback | null) {
     		this._onmessage = callback;
   	}
 
-  	get onmessage(): EventCallback | null {
-    		return this._onmessage;
+  	get onopen(): EventCallback | null {
+    		return this._onopen;
+  	}
+
+	set onopen(callback: EventCallback | null) {
+    		this._onopen = callback;
   	}
 	
 	set onerror(callback: EventCallback | null) {
@@ -69,4 +78,8 @@ class EventSource {
       			delete this.unlistenMap[eventName];
     		}
   	}
+
+	close() {
+		
+	}
 }
