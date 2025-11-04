@@ -33,6 +33,13 @@ class EventSource {
 
 	set onmessage(callback: EventCallback | null) {
     		this._onmessage = callback;
+
+			(async () => {
+			    const unlisten = await listen(`${eventStartName}${this.url}-message`, (e) => {
+			      callback?.(new MessageEvent("message", { data: e.payload }));
+			    });
+			    this.unlistenMap["message"] = unlisten;
+			})();
   	}
 
   	get onopen(): EventCallback | null {
@@ -41,10 +48,24 @@ class EventSource {
 
 	set onopen(callback: EventCallback | null) {
     		this._onopen = callback;
+
+			(async () => {
+			    const unlisten = await listen(`${eventStartName}${this.url}-open`, (e) => {
+			      callback?.(new MessageEvent("open", { data: e.payload }));
+			    });
+			    this.unlistenMap["open"] = unlisten;
+			})();
   	}
 	
 	set onerror(callback: EventCallback | null) {
     		this._onerror = callback;
+
+			(async () => {
+			    const unlisten = await listen(`${eventStartName}${this.url}-error`, (e) => {
+			      callback?.(new MessageEvent("open", { data: e.payload }));
+			    });
+			    this.unlistenMap["error"] = unlisten;
+			})();
   	}
 
   	get onerror(): EventCallback | null {
