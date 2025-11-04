@@ -90,9 +90,9 @@ class EventSource {
 
     		// Listen to Tauri event
     		const unlisten = await listen(`${eventStartName}${this.url}-${eventName}`, (e) => {
-      			const msgEvent = new MessageEvent(eventName, { data: e.payload });
-      		callback(msgEvent);
-    	});
+      			const msgEvent: MessageEvent = { type: eventName, data: e.payload };
+	      		callback(msgEvent);
+	    	});
 
     	this.unlistenMap[eventName] = unlisten;
   	}
