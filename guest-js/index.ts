@@ -9,14 +9,14 @@ export async function ping(value: string): Promise<string | null> {
   }).then((r) => (r.value ? r.value : null));
 }
 
-interface MessageEvent {
+export interface MessageEvent {
   type: string;
   data: any;
 }
 
 type EventCallback = (event: MessageEvent) => void;
 
-class EventSource {
+export class EventSource {
 	private readonly eventStartName = "tauri-plugin-sse-";
 
 	private listeners: Record<string, EventCallback> = {};
@@ -64,7 +64,8 @@ class EventSource {
 		      const unlisten = await listen(
 		        `${this.eventStartName}${this.url}-${name}`,
 		        (e) => {
-		          callback?.(new MessageEvent(name, { data: e.payload }));
+					const msgEvent: MessageEvent = { type: eventName, data: e.payload };
+		          	callback?.(msgEvent);
 		        }
 		      );
 		
