@@ -13,6 +13,11 @@ This project uses the [`sse_client`](https://crates.io/crates/sse-client) crate 
 
 **Sample Usage:**
 
+* Realtime activity feeds or notifications
+* Live server logs
+* Monitoring application state
+* Synchronizing lightweight UI updates
+
 ## Installation
 
 - Crate: https://crates.io/crates/tauri-plugin-sse
