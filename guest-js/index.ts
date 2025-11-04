@@ -16,6 +16,7 @@ export enum State {
 }
 
 export interface MessageEvent {
+  id?: string;
   type: string;
   data: any;
 }
