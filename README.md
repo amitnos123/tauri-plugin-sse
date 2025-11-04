@@ -55,9 +55,19 @@ This project uses the [`sse_client`](https://crates.io/crates/sse-client) crate 
 // Create connection to server endpoint
 const source = new EventSource("https://example.com/events");
 
+// Handle on establishing connection
+source.onopen = () => {
+  console.log("Connection stabilished!");
+};
+
 // Fired when a message is received
 source.onmessage = (event) => {
   console.log("Message from server:", event.data);
+};
+
+// Handle errors
+source.onerror = (err) => {
+  console.error("EventSource failed:", err);
 };
 
 // Handle named event types
@@ -68,15 +78,41 @@ source.addEventListener("ping", (event) => {
 // Remove handler
 removeEventListener("ping");
 
-// Handle errors
-source.onerror = (err) => {
-  console.error("EventSource failed:", err);
-};
+// Close Event Source
+source.close();
 ```
 
 ### Rust
 
 ```rust
+// Create connection to server endpoint
+let event_source = EventSource::new("http://event-stream-address/sub").unwrap();
+
+// Handle on establishing connection
+event_source.on_open(|| {
+    println!("Connection stabilished!");
+});
+
+// Fired when a message is received
+event_source.on_message(|message| {
+    println!("New message event {:?}", message);
+});
+
+// Handle errors
+event_source.on_error(|error| {
+    println!("Error {:?}", error);
+});
+
+// Handle named event types
+event_source.add_event_listener("myEvent", |event| {
+    println!("Event {} received: {}", event.type_, event.data);
+});
+
+// Remove handler
+event_source.remove_event_listener("myEvent");
+
+// Close Event Source
+event_source.close();
 ```
 
 ## Licenses
