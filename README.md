@@ -50,6 +50,9 @@ source.addEventListener("ping", (event) => {
   console.log("Ping:", event.data);
 });
 
+// Remove handler
+removeEventListener("ping");
+
 // Handle errors
 source.onerror = (err) => {
   console.error("EventSource failed:", err);
