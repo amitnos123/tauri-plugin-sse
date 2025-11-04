@@ -52,3 +52,13 @@ event_source.add_event_listener("error", |err| {
     }
 });
 ```
+
+TODO:
+------
+
+publish in
+* NMP
+* Yarn
+* Pnpm
+* Deno
+* Bun
