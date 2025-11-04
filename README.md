@@ -52,7 +52,7 @@ This project uses the [`sse_client`](https://crates.io/crates/sse-client) crate 
 ### TypeScript/JavaScript
 
 ```js
-//  TODO: Add import of right modules
+import EventSource from "tauri-plugin-sse";
 
 // Create connection to server endpoint
 const source = new EventSource("https://example.com/events");
