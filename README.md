@@ -9,6 +9,8 @@ It provides a lightweight, one-way communication channel, making it ideal for ap
 
 SSE is a simple solution for notifications, activity feeds, live status updates, or any scenario where the server needs to send real-time updates to the client.
 
+This project uses the [`sse_client`](https://crates.io/crates/sse-client) crate for handling SSE connections on the Rust side (Tauri's backend).
+
 **Sample Usage:**
 
 ## Installation
