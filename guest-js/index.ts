@@ -9,6 +9,11 @@ export async function ping(value: string): Promise<string | null> {
   }).then((r) => (r.value ? r.value : null));
 }
 
+interface MessageEvent {
+  type: string;
+  data: any;
+}
+
 type EventCallback = (event: MessageEvent) => void;
 
 class EventSource {
