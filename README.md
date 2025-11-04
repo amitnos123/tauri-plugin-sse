@@ -3,6 +3,14 @@
 ![Crates.io Version](https://img.shields.io/crates/v/tauri-plugin-sse)
 ![License](https://img.shields.io/badge/License-MIT%20or%20Apache%202-green.svg)
 
+| Platform | Supported |
+| -------- | --------- |
+| Linux    | ✓         |
+| Windows  | ✓         |
+| macOS    | ✓         |
+| Android  | ✓         |
+| iOS      | ✓         |
+
 [Server-Sent Events (SSE)](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events) is a web technology that allows a server to push real-time updates to a client over a long-lived HTTP connection.
 
 It provides a lightweight, one-way communication channel, making it ideal for applications that need continuous data streaming from the backend without using [WebSockets](https://tauri.app/plugin/websocket/).
