@@ -34,12 +34,7 @@ class EventSource {
 	set onmessage(callback: EventCallback | null) {
     		this._onmessage = callback;
 
-			(async () => {
-			    const unlisten = await listen(`${eventStartName}${this.url}-message`, (e) => {
-			      callback?.(new MessageEvent("message", { data: e.payload }));
-			    });
-			    this.unlistenMap["message"] = unlisten;
-			})();
+			syncSetListen("message", callback)
   	}
 
   	get onopen(): EventCallback | null {
@@ -49,29 +44,37 @@ class EventSource {
 	set onopen(callback: EventCallback | null) {
     		this._onopen = callback;
 
-			(async () => {
-			    const unlisten = await listen(`${eventStartName}${this.url}-open`, (e) => {
-			      callback?.(new MessageEvent("open", { data: e.payload }));
-			    });
-			    this.unlistenMap["open"] = unlisten;
-			})();
+			syncSetListen("open", callback)
   	}
 	
 	set onerror(callback: EventCallback | null) {
     		this._onerror = callback;
 
-			(async () => {
-			    const unlisten = await listen(`${eventStartName}${this.url}-error`, (e) => {
-			      callback?.(new MessageEvent("open", { data: e.payload }));
-			    });
-			    this.unlistenMap["error"] = unlisten;
-			})();
+			syncSetListen("error", callback)
   	}
 
   	get onerror(): EventCallback | null {
     		return this._onerror;
   	}
 
+	private syncSetListen(name: string, callback?: EventCallback) {
+		  // Run async code in background
+		  (async () => {
+		    try {
+		      const unlisten = await listen(
+		        `${this.eventStartName}${this.url}-${name}`,
+		        (e) => {
+		          callback?.(new MessageEvent(name, { data: e.payload }));
+		        }
+		      );
+		
+		      this.unlistenMap[name] = unlisten;
+		    } catch (err) {
+		      console.error(`Failed to set listener for ${name}:`, err);
+		    }
+		  })();
+	}
+	
 	constructor(url: string) {
 		this.url = url;
 	}
