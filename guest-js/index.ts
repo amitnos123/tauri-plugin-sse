@@ -9,6 +9,12 @@ export async function ping(value: string): Promise<string | null> {
   }).then((r) => (r.value ? r.value : null));
 }
 
+export enum State {
+	Connecting,
+	Open,
+	Closed
+}
+
 export interface MessageEvent {
   type: string;
   data: any;
@@ -26,7 +32,8 @@ export class EventSource {
 	private _onmessage: EventCallback | null = null;
 	private _onerror: EventCallback | null = null;
 	private _onopen: EventCallback | null = null;
-
+	private _state: State;
+	
   	get onmessage(): EventCallback | null {
     		return this._onmessage;
   	}
@@ -57,6 +64,10 @@ export class EventSource {
     		return this._onerror;
   	}
 
+	get state(): State {
+	    return this._state;
+	}
+	
 	private syncSetListen(name: string, callback?: EventCallback) {
 		  // Run async code in background
 		  (async () => {
@@ -78,6 +89,7 @@ export class EventSource {
 	
 	constructor(url: string) {
 		this.url = url;
+		this._state = State.Connecting;
 	}
 
 	/** Add named listener */
