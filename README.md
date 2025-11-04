@@ -85,6 +85,8 @@ source.close();
 ### Rust
 
 ```rust
+//  TODO: Add use of right modules
+
 // Create connection to server endpoint
 let event_source = EventSource::new("http://event-stream-address/sub").unwrap();
 
