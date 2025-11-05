@@ -51,23 +51,23 @@ event_source.remove_event_listener("myEvent");
 event_source.close();
 */
 
-  pub fn on_open() -> () {
+  pub fn on_open(f: Fn() -> ()) -> () {
     
   }
 
-  pub fn on_message() -> () {
+  pub fn on_message(f: Fn(arg) -> ()) -> () {
     
   }
 
-  pub fn on_error() -> () {
+  pub fn on_error(f: Fn(arg) -> ()) -> () {
     
   }
 
-  pub fn add_event_listener() -> () {
+  pub fn add_event_listener(name: &str, f: Fn(arg) -> ()) -> () {
     
   }
 
-  pub fn remove_event_listener() -> () {
+  pub fn remove_event_listener(name: &str) -> () {
     
   }
 
