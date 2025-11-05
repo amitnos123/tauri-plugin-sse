@@ -1,6 +1,8 @@
 use serde::de::DeserializeOwned;
 use tauri::{plugin::PluginApi, AppHandle, Runtime};
 
+use sse_client::Event;
+
 use crate::models::*;
 
 pub fn init<R: Runtime, C: DeserializeOwned>(
@@ -51,19 +53,19 @@ event_source.remove_event_listener("myEvent");
 event_source.close();
 */
 
-  pub fn on_open(f: Fn() -> ()) -> () {
+  pub fn on_open(listener: F) where F: Fn() + Send + 'static {
     
   }
 
-  pub fn on_message(f: Fn(arg) -> ()) -> () {
+  pub fn on_message(listener: F) where F: Fn(Event) + Send + 'static {
     
   }
 
-  pub fn on_error(f: Fn(arg) -> ()) -> () {
+  pub fn on_error(listener: F) where F: Fn(Event) + Send + 'static {
     
   }
 
-  pub fn add_event_listener(name: &str, f: Fn(arg) -> ()) -> () {
+  pub fn add_event_listener(name: &str, listener: F) where F: Fn(Event) + Send + 'static {
     
   }
 
