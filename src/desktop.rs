@@ -53,27 +53,32 @@ event_source.remove_event_listener("myEvent");
 event_source.close();
 */
 
-  pub fn on_open(listener: F) where F: Fn() + Send + 'static {
+  pub fn on_open(listener: F) -> crate::Result<()>
+    where F: Fn() + Send + 'static
+    {
     
   }
 
-  pub fn on_message(listener: F) where F: Fn(Event) + Send + 'static {
-    
+  pub fn on_message(listener: F)  -> crate::Result<()>
+    where F: Fn() + Send + 'static
+    {
   }
 
-  pub fn on_error(listener: F) where F: Fn(Event) + Send + 'static {
-    
+  pub fn on_error(listener: F) -> crate::Result<()>
+    where F: Fn() + Send + 'static
+    {
   }
 
-  pub fn add_event_listener(name: &str, listener: F) where F: Fn(Event) + Send + 'static {
-    
+  pub fn add_event_listener(name: &str, listener: F) -> crate::Result<()>
+    where F: Fn() + Send + 'static
+    {
   }
 
-  pub fn remove_event_listener(name: &str) -> () {
-    
+  pub fn remove_event_listener(name: &str) -> crate::Result<()>
+  {
   }
 
-  pub fn close() -> () {
+  pub fn close() -> crate::Result<()> {
     
   }
 }
