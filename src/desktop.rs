@@ -52,7 +52,7 @@ event_source.remove_event_listener("myEvent");
 // Close Event Source
 event_source.close();
 */
-
+// Move function to commands. Those aren't unique to desktop
   pub fn on_open(listener: F) -> crate::Result<()>
     where F: Fn() + Send + 'static
     {
