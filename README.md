@@ -20,11 +20,11 @@ This project uses the [`sse_client`](https://crates.io/crates/sse-client) crate 
 
 | Platform | Supported |
 | -------- | --------- |
-| Linux    | ✓         |
-| Windows  | ✓         |
-| macOS    | ✓         |
-| Android  | ✓         |
-| iOS      | ✓         |
+| Linux    | not tested         |
+| Windows  | not tested         |
+| macOS    | not tested         |
+| Android  | not tested         |
+| iOS      | not tested         |
 
 ## Installation
 
