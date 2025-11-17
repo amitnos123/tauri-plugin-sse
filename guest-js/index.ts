@@ -22,11 +22,13 @@ export interface MessageEvent {
 }
 
 type EventCallback = (event: MessageEvent) => void;
+type EventUnlisten = (event: MessageEvent) => void;
 
 export class EventSource {
 	private readonly eventStartName = "tauri-plugin-sse-";
 
 	private listeners: Record<string, EventCallback> = {};
+	private unlistenMap: Record<string, EventUnlisten> = {};
 	
 	private url: string;
 	
@@ -42,7 +44,7 @@ export class EventSource {
 	set onmessage(callback: EventCallback | null) {
     		this._onmessage = callback;
 
-			syncSetListen("message", callback)
+			this.syncSetListen("message", callback)
   	}
 
   	get onopen(): EventCallback | null {
@@ -52,13 +54,13 @@ export class EventSource {
 	set onopen(callback: EventCallback | null) {
     		this._onopen = callback;
 
-			syncSetListen("open", callback)
+			this.syncSetListen("open", callback)
   	}
 	
 	set onerror(callback: EventCallback | null) {
     		this._onerror = callback;
 
-			syncSetListen("error", callback)
+			this.syncSetListen("error", callback)
   	}
 
   	get onerror(): EventCallback | null {
@@ -69,14 +71,14 @@ export class EventSource {
 	    return this._state;
 	}
 	
-	private syncSetListen(name: string, callback?: EventCallback) {
+	private syncSetListen(name: string, callback: EventCallback | null) {
 		  // Run async code in background
 		  (async () => {
 		    try {
 		      const unlisten = await listen(
 		        `${this.eventStartName}${this.url}-${name}`,
 		        (e) => {
-					const msgEvent: MessageEvent = { type: eventName, data: e.payload };
+					const msgEvent: MessageEvent = { type: name, data: e.payload };
 		          	callback?.(msgEvent);
 		        }
 		      );
@@ -103,7 +105,7 @@ export class EventSource {
     		}
 
     		// Listen to Tauri event
-    		const unlisten = await listen(`${eventStartName}${this.url}-${eventName}`, (e) => {
+    		const unlisten = await listen(`${this.eventStartName}${this.url}-${eventName}`, (e) => {
       			const msgEvent: MessageEvent = { type: eventName, data: e.payload };
 	      		callback(msgEvent);
 	    	});

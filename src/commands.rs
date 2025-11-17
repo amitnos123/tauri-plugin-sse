@@ -1,6 +1,8 @@
-use tauri::{AppHandle, command, Runtime};
+use tauri::{AppHandle, command, Runtime, async_runtime::Mutex};
 
 use std::collections::HashMap;
+
+use sse_client::EventSource;
 
 use crate::models::*;
 use crate::Result;
@@ -25,10 +27,10 @@ pub(crate) async fn ping<R: Runtime>(
 */
 
 #[command]
-pub(crate) async fn ping<R: Runtime>(
+pub(crate) async fn open_sse<R: Runtime>(
     app: AppHandle<R>,
-    payload: PingRequest,
-) -> Result<PingResponse> {
+    payload: OpenRequest,
+) -> Result<OpenResponse> {
     let state = app.state::<Mutex<AppState>>();
 
     let url = "http://event-stream-address/sub".to_string();
@@ -39,32 +41,45 @@ pub(crate) async fn ping<R: Runtime>(
     state.events.insert(url, event_source);
 }
 
-/*TOOD implemented
-  // Create connection to server endpoint
-let event_source = EventSource::new("http://event-stream-address/sub").unwrap();
+#[command]
+pub(crate) async fn on_message_sse<R: Runtime>(
+    app: AppHandle<R>,
+    payload: OnMessageRequest,
+) -> Result<OnMessageResponse> {
+}
 
-// Handle on establishing connection
-event_source.on_open(|| {
-    println!("Connection stabilished!");
-});
+#[command]
+pub(crate) async fn on_error_sse<R: Runtime>(
+    app: AppHandle<R>,
+    payload: OnErrorRequest,
+) -> Result<OnErrorResponse> {
+}
 
-// Fired when a message is received
-event_source.on_message(|message| {
-    println!("New message event {:?}", message);
-});
+#[command]
+pub(crate) async fn add_event_listener_sse<R: Runtime>(
+    app: AppHandle<R>,
+    payload: AddEventListenerRequest,
+) -> Result<AddEventListenerResponse> {
+}
 
-// Handle errors
-event_source.on_error(|error| {
-    println!("Error {:?}", error);
-});
+#[command]
+pub(crate) async fn remove_event_listener_sse<R: Runtime>(
+    app: AppHandle<R>,
+    payload: RemoveEventListenerRequest,
+) -> Result<RemoveEventListenerResponse> {
+}
 
-// Handle named event types
-event_source.add_event_listener("myEvent", |event| {
-    println!("Event {} received: {}", event.type_, event.data);
-});
-
-// Remove handler
-event_source.remove_event_listener("myEvent");
-
-// Close Event Source
-event_source.close
+#[command]
+pub(crate) async fn close_sse<R: Runtime>(
+    app: AppHandle<R>,
+    payload: CloseRequest,
+) -> Result<CloseResponse> {
+    let url = "http://event-stream-address/sub".to_string();
+    let state = app.state::<Mutex<AppState>>();
+    if state.events.contains_key(url) {
+        let event_source = state.get(url);
+        event_source.close();
+        let mut state = state.lock().unwrap();
+        state.events.remove(url)
+    }
+}

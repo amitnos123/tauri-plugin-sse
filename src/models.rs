@@ -36,30 +36,51 @@ pub struct CloseResponse {
   pub value: Option<String>,
 }
 
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AddEventListenerRequest {
+  pub value: Option<String>,
+}
 
-/* TODO make models
-let event_source = EventSource::new("http://event-stream-address/sub").unwrap();
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AddEventListenerResponse {
+  pub value: Option<String>,
+}
 
-// Handle on establishing connection
-event_source.on_open(|| {
-    println!("Connection stabilished!");
-});
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RemoveEventListenerRequest {
+  pub value: Option<String>,
+}
 
-// Fired when a message is received
-event_source.on_message(|message| {
-    println!("New message event {:?}", message);
-});
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RemoveEventListenerResponse {
+  pub value: Option<String>,
+}
 
-// Handle errors
-event_source.on_error(|error| {
-    println!("Error {:?}", error);
-});
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OnMessageRequest {
+  pub value: Option<String>,
+}
 
-// Handle named event types
-event_source.add_event_listener("myEvent", |event| {
-    println!("Event {} received: {}", event.type_, event.data);
-});
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OnMessageResponse {
+  pub value: Option<String>,
+}
 
-// Remove handler
-event_source.remove_event_listener("myEvent");
-*/
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OnErrorRequest {
+  pub value: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OnErrorResponse {
+  pub value: Option<String>,
+}

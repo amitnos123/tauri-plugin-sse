@@ -13,6 +13,7 @@ links = "tauri-plugin-sse"
 tauri = { version = "2.9.2" }
 serde = "1.0"
 thiserror = "2"
+sse-client = "1.1.1"
 
 [build-dependencies]
 tauri-plugin = { version = "2.5.1", features = ["build"] }
