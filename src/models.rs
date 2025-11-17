@@ -12,6 +12,30 @@ pub struct PingResponse {
   pub value: Option<String>,
 }
 
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OpenRequest {
+  pub value: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OpenResponse {
+  pub value: Option<String>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CloseRequest {
+  pub value: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CloseResponse {
+  pub value: Option<String>,
+}
+
 
 /* TODO make models
 let event_source = EventSource::new("http://event-stream-address/sub").unwrap();
