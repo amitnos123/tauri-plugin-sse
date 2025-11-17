@@ -12,6 +12,11 @@ pub(crate) async fn ping<R: Runtime>(
     app.sse().ping(payload)
 }
 
+/*
+    command_scope: CommandScope<Entry>,
+    global_scope: GlobalScope<Entry>
+*/
+
 /*TOOD implemented
   // Create connection to server endpoint
 let event_source = EventSource::new("http://event-stream-address/sub").unwrap();
