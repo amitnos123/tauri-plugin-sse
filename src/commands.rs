@@ -1,8 +1,15 @@
 use tauri::{AppHandle, command, Runtime};
 
+use std::collections::HashMap;
+
 use crate::models::*;
 use crate::Result;
 use crate::SseExt;
+
+#[derive(Default)]
+struct AppState {
+  events: HashMap<String, EventSource>
+}
 
 #[command]
 pub(crate) async fn ping<R: Runtime>(
@@ -16,6 +23,21 @@ pub(crate) async fn ping<R: Runtime>(
     command_scope: CommandScope<Entry>,
     global_scope: GlobalScope<Entry>
 */
+
+#[command]
+pub(crate) async fn ping<R: Runtime>(
+    app: AppHandle<R>,
+    payload: PingRequest,
+) -> Result<PingResponse> {
+    let state = app.state::<Mutex<AppState>>();
+
+    let url = "http://event-stream-address/sub".to_string();
+    let event_source = EventSource::new("http://event-stream-address/sub").unwrap();
+
+    // Lock the mutex to mutably access the state.
+    let mut state = state.lock().unwrap();
+    state.events.insert(url, event_source);
+}
 
 /*TOOD implemented
   // Create connection to server endpoint
