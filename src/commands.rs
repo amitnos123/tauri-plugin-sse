@@ -9,8 +9,8 @@ use crate::Result;
 use crate::SseExt;
 
 #[derive(Default)]
-struct AppState {
-  events: HashMap<String, EventSource>
+pub struct AppState {
+  pub events: HashMap<String, EventSource>
 }
 
 #[command]

@@ -1,6 +1,5 @@
 use tauri::{
-  plugin::{Builder, TauriPlugin},
-  Manager, Runtime,
+  async_runtime::Mutex, plugin::{Builder, TauriPlugin}, Manager, Runtime
 };
 
 pub use models::*;
@@ -38,10 +37,10 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
     .invoke_handler(tauri::generate_handler![commands::ping])
     .setup(|app, api| {
       #[cfg(mobile)]
-      let sse = mobile::init(app, api)?;
+      let _sse = mobile::init(app, api)?;
       #[cfg(desktop)]
-      let sse = desktop::init(app, api)?;
-      app.manage(sse);
+      let _sse = desktop::init(app, api)?;
+      app.manage(Mutex::new(commands::AppState::default()));
       Ok(())
     })
     .build()
