@@ -22,7 +22,7 @@ export interface MessageEvent {
 }
 
 type EventCallback = (event: MessageEvent) => void;
-type EventUnlisten = (event: MessageEvent) => void;
+type EventUnlisten = () => void;
 
 export class EventSource {
 	private readonly eventStartName = "tauri-plugin-sse-";
@@ -54,13 +54,13 @@ export class EventSource {
 	set onopen(callback: EventCallback | null) {
     		this._onopen = callback;
 
-			this.syncSetListen("open", callback)
+			this.syncSetListen("open", callback);
   	}
 	
 	set onerror(callback: EventCallback | null) {
     		this._onerror = callback;
 
-			this.syncSetListen("error", callback)
+			this.syncSetListen("error", callback);
   	}
 
   	get onerror(): EventCallback | null {
@@ -71,6 +71,10 @@ export class EventSource {
 	    return this._state;
 	}
 	
+	/* Add an event listener
+	and saved unlisten callback inside this.unlistenMap[name]
+	Does this Async block
+	*/
 	private syncSetListen(name: string, callback: EventCallback | null) {
 		  // Run async code in background
 		  (async () => {
