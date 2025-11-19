@@ -44,7 +44,7 @@ export class EventSource {
 	set onmessage(callback: EventCallback | null) {
     		this._onmessage = callback;
 
-			this.syncSetListen("message", callback)
+			this.syncSetListen("message", callback, "add_on_message_sse")
   	}
 
   	get onopen(): EventCallback | null {
@@ -54,13 +54,13 @@ export class EventSource {
 	set onopen(callback: EventCallback | null) {
     		this._onopen = callback;
 
-			this.syncSetListen("open", callback);
+			this.syncSetListen("open", callback, "open_sse");
   	}
 	
 	set onerror(callback: EventCallback | null) {
     		this._onerror = callback;
 
-			this.syncSetListen("error", callback);
+			this.syncSetListen("error", callback, "on_error_sse");
   	}
 
   	get onerror(): EventCallback | null {
@@ -75,60 +75,85 @@ export class EventSource {
 	and saved unlisten callback inside this.unlistenMap[name]
 	Does this Async block
 	*/
-	private syncSetListen(name: string, callback: EventCallback | null) {
+	private syncSetListen(name: string, callback: EventCallback | null, command: string) {
 		  // Run async code in background
-		  (async () => {
-		    try {
-		      const unlisten = await listen(
-		        `${this.eventStartName}${this.url}-${name}`,
-		        (e) => {
-					const msgEvent: MessageEvent = { type: name, data: e.payload };
-		          	callback?.(msgEvent);
-		        }
-		      );
-		
-		      this.unlistenMap[name] = unlisten;
-		    } catch (err) {
-		      console.error(`Failed to set listener for ${name}:`, err);
-		    }
-		  })();
+		(async () => {
+			try {
+			let is_success : Boolean = await invoke<Boolean>('plugin:sse|' + command, {url: this.url})
+			.then((r : boolean) => r);
+			if (is_success) {
+				const unlisten = await listen<MessageEvent>(
+					`${this.eventStartName}${this.url}-${name}`,
+					(e: MessageEvent) => {
+						callback?.(e);
+					}
+				);
+
+				this.unlistenMap[name] = unlisten;
+			}
+				return {is_success: is_success, name: name};
+			} catch (err) {
+				console.error(`Failed to set listener for ${name}:`, err);
+			}
+			})();
 	}
 	
 	constructor(url: string) {
 		this.url = url;
 		this._state = State.Connecting;
+		this.open().then((r : Boolean) => (this._state = r ? State.Open : State.Closed));
+	}
+
+	async open() : Promise<Boolean> {
+		let r : Boolean = await invoke<Boolean>('plugin:sse|open_sse', {url: this.url});
+		if (r) {
+			this._state = State.Open;
+		}
+		return r;
 	}
 
 	/** Add named listener */
-  	async addEventListener(eventName: string, callback: EventCallback) {
-    		this.listeners[eventName] = callback;
+  	async addEventListener(eventName: string, callback: EventCallback) : Promise<boolean> {
+		let is_success = await invoke<Boolean>('plugin:sse|add_event_listener', {url: this.url, name: eventName})
+				.then((r : boolean) => r);
+		if (is_success) {
+			this.listeners[eventName] = callback;
 
-    		// If already listening, remove previous
-    		if (this.unlistenMap[eventName]) {
-      			await this.unlistenMap[eventName]!();
-    		}
+			// If already listening, remove previous
+			if (this.unlistenMap[eventName]) {
+				await this.unlistenMap[eventName]!();
+			}
 
-    		// Listen to Tauri event
-    		const unlisten = await listen(`${this.eventStartName}${this.url}-${eventName}`, (e) => {
-      			const msgEvent: MessageEvent = { type: eventName, data: e.payload };
-	      		callback(msgEvent);
-	    	});
+			// Listen to Tauri event
+			const unlisten = await listen<MessageEvent>(`${this.eventStartName}${this.url}-${eventName}`, (e: MessageEvent) => {
+				callback(e);
+			});
 
-    	this.unlistenMap[eventName] = unlisten;
+			this.unlistenMap[eventName] = unlisten;
+		}
+		return is_success;
   	}
 
   	/** Remove named listener */
-  	async removeEventListener(eventName: string) {
-    		delete this.listeners[eventName];
+  	async removeEventListener(eventName: string) : Promise<Boolean> {
+		let is_success = await invoke<Boolean>('plugin:sse|remove_event_listener', {url: this.url, name: eventName})
+		if (is_success) {
+			delete this.listeners[eventName];
 
-    		const unlisten = this.unlistenMap[eventName];
-    		if (unlisten) {
-      			await unlisten();
-      			delete this.unlistenMap[eventName];
-    		}
+			const unlisten = this.unlistenMap[eventName];
+			if (unlisten) {
+				await unlisten();
+				delete this.unlistenMap[eventName];
+			}
+		}
+		return is_success;
   	}
 
-	close() {
-		
+	async close() : Promise<Boolean> {
+		let r : Boolean = await invoke<Boolean>('plugin:sse|close_sse', {url: this.url});
+		if (r) {
+			this._state = State.Closed;
+		}
+		return r;
 	}
 }
