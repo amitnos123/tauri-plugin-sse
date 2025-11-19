@@ -15,18 +15,18 @@ class EventSource {
     }
     set onmessage(callback) {
         this._onmessage = callback;
-        this.syncSetListen("message", callback, "add_on_message_sse");
+        this.syncSetListen("on_message", callback, "add_on_message_sse");
     }
     get onopen() {
         return this._onopen;
     }
     set onopen(callback) {
         this._onopen = callback;
-        this.syncSetListen("open", callback, "open_sse");
+        this.syncSetListen("on_open", callback, "open_sse");
     }
     set onerror(callback) {
         this._onerror = callback;
-        this.syncSetListen("error", callback, "on_error_sse");
+        this.syncSetListen("on_error", callback, "on_error_sse");
     }
     get onerror() {
         return this._onerror;
@@ -45,8 +45,9 @@ class EventSource {
                 let is_success = await core.invoke('plugin:sse|' + command, { url: this.url })
                     .then((r) => r);
                 if (is_success) {
-                    const unlisten = await event.listen(`${this.eventStartName}${this.url}-${name}`, (e) => {
-                        callback?.(e);
+                    const safeUrl = this.sanitizeUrl(this.url);
+                    const unlisten = await event.listen(`${this.eventStartName}${safeUrl}-${name}`, (e) => {
+                        callback?.(e.payload);
                     });
                     this.unlistenMap[name] = unlisten;
                 }
@@ -56,6 +57,11 @@ class EventSource {
                 console.error(`Failed to set listener for ${name}:`, err);
             }
         })();
+    }
+    sanitizeUrl(url) {
+        return url
+            .replace(/:\/\//g, '__') // replace :// 
+            .replace(/[^a-zA-Z0-9\-/_:]/g, '_'); // replace other disallowed chars
     }
     constructor(url) {
         this.eventStartName = "tauri-plugin-sse-";
@@ -85,9 +91,10 @@ class EventSource {
             if (this.unlistenMap[eventName]) {
                 await this.unlistenMap[eventName]();
             }
+            const safeUrl = this.sanitizeUrl(this.url);
             // Listen to Tauri event
-            const unlisten = await event.listen(`${this.eventStartName}${this.url}-${eventName}`, (e) => {
-                callback(e);
+            const unlisten = await event.listen(`${this.eventStartName}${safeUrl}-${eventName}`, (e) => {
+                callback(e.payload);
             });
             this.unlistenMap[eventName] = unlisten;
         }

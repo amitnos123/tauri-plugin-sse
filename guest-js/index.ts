@@ -36,7 +36,7 @@ export class EventSource {
 	set onmessage(callback: EventCallback | null) {
     		this._onmessage = callback;
 
-			this.syncSetListen("message", callback, "add_on_message_sse")
+			this.syncSetListen("on_message", callback, "add_on_message_sse")
   	}
 
   	get onopen(): EventCallback | null {
@@ -46,13 +46,13 @@ export class EventSource {
 	set onopen(callback: EventCallback | null) {
     		this._onopen = callback;
 
-			this.syncSetListen("open", callback, "open_sse");
+			this.syncSetListen("on_open", callback, "open_sse");
   	}
 	
 	set onerror(callback: EventCallback | null) {
     		this._onerror = callback;
 
-			this.syncSetListen("error", callback, "on_error_sse");
+			this.syncSetListen("on_error", callback, "on_error_sse");
   	}
 
   	get onerror(): EventCallback | null {
@@ -74,8 +74,9 @@ export class EventSource {
 			let is_success : boolean = await invoke<boolean>('plugin:sse|' + command, {url: this.url})
 			.then((r : boolean) => r);
 			if (is_success) {
+				const safeUrl = this.sanitizeUrl(this.url);
 				const unlisten = await listen<MessageEvent>(
-					`${this.eventStartName}${this.url}-${name}`,
+					`${this.eventStartName}${safeUrl}-${name}`,
 					(e) => {
 						callback?.(e.payload);
 					}
@@ -90,9 +91,16 @@ export class EventSource {
 			})();
 	}
 	
+	private sanitizeUrl(url: string): string {
+		return url
+			.replace(/:\/\//g, '__')   // replace :// 
+			.replace(/[^a-zA-Z0-9\-/_:]/g, '_'); // replace other disallowed chars
+	}
+
 	constructor(url: string) {
 		this.url = url;
 		this._state = State.Connecting;
+
 		this.open().then((r : boolean) => (this._state = r ? State.Open : State.Closed));
 	}
 
@@ -116,8 +124,9 @@ export class EventSource {
 				await this.unlistenMap[eventName]!();
 			}
 
+			const safeUrl = this.sanitizeUrl(this.url);
 			// Listen to Tauri event
-			const unlisten = await listen<MessageEvent>(`${this.eventStartName}${this.url}-${eventName}`, (e) => {
+			const unlisten = await listen<MessageEvent>(`${this.eventStartName}${safeUrl}-${eventName}`, (e) => {
 				callback(e.payload);
 			});
 

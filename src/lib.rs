@@ -34,7 +34,13 @@ impl<R: Runtime, T: Manager<R>> crate::SseExt<R> for T {
 /// Initializes the plugin.
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
   Builder::new("sse")
-    .invoke_handler(tauri::generate_handler![commands::ping])
+    .invoke_handler(tauri::generate_handler![commands::open_sse, 
+      commands::close_sse,
+      commands::add_on_message_sse,
+      commands::add_on_error_sse,
+      commands::add_event_listener_sse,
+      commands::remove_event_listener_sse
+    ])
     .setup(|app, api| {
       #[cfg(mobile)]
       let _sse = mobile::init(app, api)?;

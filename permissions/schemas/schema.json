@@ -379,10 +379,10 @@
           "markdownDescription": "Denies the remove_event_listener_sse command without any pre-configured scope."
         },
         {
-          "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-ping`",
+          "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-add-event-listener-sse`\n- `allow-remove-event-listener-sse`\n- `allow-add-on-error-sse`\n- `allow-add-on-message-sse`\n- `allow-close-sse`\n- `allow-open-sse`",
           "type": "string",
           "const": "default",
-          "markdownDescription": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-ping`"
+          "markdownDescription": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-add-event-listener-sse`\n- `allow-remove-event-listener-sse`\n- `allow-add-on-error-sse`\n- `allow-add-on-message-sse`\n- `allow-close-sse`\n- `allow-open-sse`"
         }
       ]
     }

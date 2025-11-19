@@ -4,7 +4,12 @@ Default permissions for the plugin
 
 #### This default permission set includes the following:
 
-- `allow-ping`
+- `allow-add-event-listener-sse`
+- `allow-remove-event-listener-sse`
+- `allow-add-on-error-sse`
+- `allow-add-on-message-sse`
+- `allow-close-sse`
+- `allow-open-sse`
 
 ## Permission Table
 

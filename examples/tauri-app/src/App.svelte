@@ -8,6 +8,9 @@
 		response += `[${new Date().toLocaleTimeString()}] ` + (typeof returnValue === 'string' ? returnValue : JSON.stringify(returnValue)) + '<br>'
 	}
 
+   const eventSource = new EventSource('https://sse.dev/test')
+   eventSource.onmessage = (event) => {console.log(event)}
+
 </script>
 
 <main class="container">

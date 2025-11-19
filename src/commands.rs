@@ -1,29 +1,33 @@
-use tauri::{Emitter, Manager, State, AppHandle, command, Runtime, async_runtime::Mutex};
+use tauri::{Emitter, Manager, AppHandle, command, Runtime, async_runtime::Mutex};
 
 use std::collections::HashMap;
 
+extern crate sse_client;
 use sse_client::EventSource;
 
 use crate::models::*;
 use crate::Result;
-use crate::SseExt;
 
 pub(crate) fn event_full_name(url: &str, name: &str) -> String {
     let event_start_name = "tauri-plugin-sse-";
-    event_start_name.to_string() + url + "-" + name
+    event_start_name.to_string() + &sanitize_event_name(url) + "-" + name
 }
+
+/// Make a string safe for Tauri event names
+fn sanitize_event_name(url: &str) -> String {
+    url.replace("://", "__")
+       .chars()
+       .map(|c| match c {
+           'a'..='z' | 'A'..='Z' | '0'..='9' | '-' | '/' | ':' | '_' => c,
+           _ => '_',
+       })
+       .collect()
+}
+
 
 #[derive(Default)]
 pub struct AppState {
   pub events: HashMap<String, EventSource>
-}
-
-#[command]
-pub(crate) async fn ping<R: Runtime>(
-    app: AppHandle<R>,
-    payload: PingRequest,
-) -> Result<PingResponse> {
-    app.sse().ping(payload)
 }
 
 /*
@@ -40,6 +44,8 @@ pub(crate) async fn open_sse<R: Runtime>(
 
     // Create a new EventSource instance for the given URL.
     let event_source = EventSource::new(&url).unwrap();
+
+    println!("Opening SSE connection to {url}");
 
     // Lock the mutex to mutably access the state.
     let mut state = state.lock().await;
@@ -59,8 +65,10 @@ pub(crate) async fn add_on_message_sse<R: Runtime>(
     let app_clone = app.clone();
     let event_full_name = event_full_name(&url, "on_message");
     if let Some(event_source) = state.events.get_mut(&url) {
+        println!("{:?}", event_source.state());
         event_source.on_message(move |message| {
                     let payload = TauriEventSse::from_client_event_sse(message);
+                    println!("add_on_message_sse payload: {:?}", payload);
                     app_clone.emit(&event_full_name, payload).unwrap();
                 }
             );
@@ -123,7 +131,7 @@ pub(crate) async fn remove_event_listener_sse<R: Runtime>(
     let mut state = state.lock().await;
 
     if let Some(event_source) = state.events.get_mut(&url) {
-        event_source.add_event_listener(&name ,|event| {}); // Do nothing on event
+        event_source.add_event_listener(&name ,|_event| {}); // Do nothing on event
         return Ok(true);
     }
     Ok(false)

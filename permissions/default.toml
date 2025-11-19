@@ -1,3 +1,3 @@
 [default]
 description = "Default permissions for the plugin"
-permissions = ["allow-ping"]
+permissions = ["allow-add-event-listener-sse", "allow-remove-event-listener-sse", "allow-add-on-error-sse", "allow-add-on-message-sse", "allow-close-sse", "allow-open-sse"]

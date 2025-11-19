@@ -26,12 +26,13 @@ export declare class EventSource {
     get onerror(): EventCallback | null;
     get state(): State;
     private syncSetListen;
+    private sanitizeUrl;
     constructor(url: string);
-    open(): Promise<Boolean>;
+    open(): Promise<boolean>;
     /** Add named listener */
     addEventListener(eventName: string, callback: EventCallback): Promise<boolean>;
     /** Remove named listener */
-    removeEventListener(eventName: string): Promise<Boolean>;
-    close(): Promise<Boolean>;
+    removeEventListener(eventName: string): Promise<boolean>;
+    close(): Promise<boolean>;
 }
 export {};

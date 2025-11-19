@@ -1,8 +1,6 @@
 use serde::de::DeserializeOwned;
 use tauri::{plugin::PluginApi, AppHandle, Runtime};
 
-use sse_client::Event;
-
 use crate::models::*;
 
 pub fn init<R: Runtime, C: DeserializeOwned>(
