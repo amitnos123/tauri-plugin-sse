@@ -20,8 +20,8 @@ This project uses the [`sse_client`](https://crates.io/crates/sse-client) crate 
 
 | Platform | Supported |
 | -------- | --------- |
-| Linux    | not tested         |
-| Windows  | not tested         |
+| Linux    | ✓         |
+| Windows  | ✓         |
 | macOS    | not tested         |
 | Android  | not tested         |
 | iOS      | not tested         |
