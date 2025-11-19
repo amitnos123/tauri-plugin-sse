@@ -1,14 +1,6 @@
 import { invoke } from '@tauri-apps/api/core'
 import { listen } from '@tauri-apps/api/event';
 
-export async function ping(value: string): Promise<string | null> {
-  return await invoke<{value?: string}>('plugin:sse|ping', {
-    payload: {
-      value,
-    },
-  }).then((r) => (r.value ? r.value : null));
-}
-
 export enum State {
 	Connecting,
 	Open,
@@ -79,13 +71,13 @@ export class EventSource {
 		  // Run async code in background
 		(async () => {
 			try {
-			let is_success : Boolean = await invoke<Boolean>('plugin:sse|' + command, {url: this.url})
+			let is_success : boolean = await invoke<boolean>('plugin:sse|' + command, {url: this.url})
 			.then((r : boolean) => r);
 			if (is_success) {
 				const unlisten = await listen<MessageEvent>(
 					`${this.eventStartName}${this.url}-${name}`,
-					(e: MessageEvent) => {
-						callback?.(e);
+					(e) => {
+						callback?.(e.payload);
 					}
 				);
 
@@ -101,11 +93,11 @@ export class EventSource {
 	constructor(url: string) {
 		this.url = url;
 		this._state = State.Connecting;
-		this.open().then((r : Boolean) => (this._state = r ? State.Open : State.Closed));
+		this.open().then((r : boolean) => (this._state = r ? State.Open : State.Closed));
 	}
 
-	async open() : Promise<Boolean> {
-		let r : Boolean = await invoke<Boolean>('plugin:sse|open_sse', {url: this.url});
+	async open() : Promise<boolean> {
+		let r : boolean = await invoke<boolean>('plugin:sse|open_sse', {url: this.url});
 		if (r) {
 			this._state = State.Open;
 		}
@@ -114,7 +106,7 @@ export class EventSource {
 
 	/** Add named listener */
   	async addEventListener(eventName: string, callback: EventCallback) : Promise<boolean> {
-		let is_success = await invoke<Boolean>('plugin:sse|add_event_listener', {url: this.url, name: eventName})
+		let is_success = await invoke<boolean>('plugin:sse|add_event_listener', {url: this.url, name: eventName})
 				.then((r : boolean) => r);
 		if (is_success) {
 			this.listeners[eventName] = callback;
@@ -125,8 +117,8 @@ export class EventSource {
 			}
 
 			// Listen to Tauri event
-			const unlisten = await listen<MessageEvent>(`${this.eventStartName}${this.url}-${eventName}`, (e: MessageEvent) => {
-				callback(e);
+			const unlisten = await listen<MessageEvent>(`${this.eventStartName}${this.url}-${eventName}`, (e) => {
+				callback(e.payload);
 			});
 
 			this.unlistenMap[eventName] = unlisten;
@@ -135,8 +127,8 @@ export class EventSource {
   	}
 
   	/** Remove named listener */
-  	async removeEventListener(eventName: string) : Promise<Boolean> {
-		let is_success = await invoke<Boolean>('plugin:sse|remove_event_listener', {url: this.url, name: eventName})
+  	async removeEventListener(eventName: string) : Promise<boolean> {
+		let is_success = await invoke<boolean>('plugin:sse|remove_event_listener', {url: this.url, name: eventName})
 		if (is_success) {
 			delete this.listeners[eventName];
 
@@ -149,8 +141,8 @@ export class EventSource {
 		return is_success;
   	}
 
-	async close() : Promise<Boolean> {
-		let r : Boolean = await invoke<Boolean>('plugin:sse|close_sse', {url: this.url});
+	async close() : Promise<boolean> {
+		let r : boolean = await invoke<boolean>('plugin:sse|close_sse', {url: this.url});
 		if (r) {
 			this._state = State.Closed;
 		}
