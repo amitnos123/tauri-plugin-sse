@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-close-sse"
+description = "Enables the close_sse command without any pre-configured scope."
+commands.allow = ["close_sse"]
+
+[[permission]]
+identifier = "deny-close-sse"
+description = "Denies the close_sse command without any pre-configured scope."
+commands.deny = ["close_sse"]

@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-add-on-message-sse"
+description = "Enables the add_on_message_sse command without any pre-configured scope."
+commands.allow = ["add_on_message_sse"]
+
+[[permission]]
+identifier = "deny-add-on-message-sse"
+description = "Denies the add_on_message_sse command without any pre-configured scope."
+commands.deny = ["add_on_message_sse"]

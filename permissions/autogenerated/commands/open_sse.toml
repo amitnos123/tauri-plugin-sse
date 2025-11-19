@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-open-sse"
+description = "Enables the open_sse command without any pre-configured scope."
+commands.allow = ["open_sse"]
+
+[[permission]]
+identifier = "deny-open-sse"
+description = "Denies the open_sse command without any pre-configured scope."
+commands.deny = ["open_sse"]

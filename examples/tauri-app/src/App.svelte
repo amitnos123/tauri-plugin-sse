@@ -1,6 +1,6 @@
 <script>
   import Greet from './lib/Greet.svelte'
-  import { ping } from 'tauri-plugin-sse-api'
+  import { EventSource } from 'tauri-plugin-sse-api';
 
 	let response = $state('')
 
@@ -8,9 +8,6 @@
 		response += `[${new Date().toLocaleTimeString()}] ` + (typeof returnValue === 'string' ? returnValue : JSON.stringify(returnValue)) + '<br>'
 	}
 
-	function _ping() {
-		ping("Pong!").then(updateResponse).catch(updateResponse)
-	}
 </script>
 
 <main class="container">

@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-add-on-error-sse"
+description = "Enables the add_on_error_sse command without any pre-configured scope."
+commands.allow = ["add_on_error_sse"]
+
+[[permission]]
+identifier = "deny-add-on-error-sse"
+description = "Denies the add_on_error_sse command without any pre-configured scope."
+commands.deny = ["add_on_error_sse"]

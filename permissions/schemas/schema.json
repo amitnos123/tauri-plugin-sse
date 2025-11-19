@@ -295,6 +295,66 @@
       "type": "string",
       "oneOf": [
         {
+          "description": "Enables the add_event_listener_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-add-event-listener-sse",
+          "markdownDescription": "Enables the add_event_listener_sse command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the add_event_listener_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-add-event-listener-sse",
+          "markdownDescription": "Denies the add_event_listener_sse command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the add_on_error_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-add-on-error-sse",
+          "markdownDescription": "Enables the add_on_error_sse command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the add_on_error_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-add-on-error-sse",
+          "markdownDescription": "Denies the add_on_error_sse command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the add_on_message_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-add-on-message-sse",
+          "markdownDescription": "Enables the add_on_message_sse command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the add_on_message_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-add-on-message-sse",
+          "markdownDescription": "Denies the add_on_message_sse command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the close_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-close-sse",
+          "markdownDescription": "Enables the close_sse command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the close_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-close-sse",
+          "markdownDescription": "Denies the close_sse command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the open_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-open-sse",
+          "markdownDescription": "Enables the open_sse command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the open_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-open-sse",
+          "markdownDescription": "Denies the open_sse command without any pre-configured scope."
+        },
+        {
           "description": "Enables the ping command without any pre-configured scope.",
           "type": "string",
           "const": "allow-ping",
@@ -305,6 +365,18 @@
           "type": "string",
           "const": "deny-ping",
           "markdownDescription": "Denies the ping command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the remove_event_listener_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-remove-event-listener-sse",
+          "markdownDescription": "Enables the remove_event_listener_sse command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the remove_event_listener_sse command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-remove-event-listener-sse",
+          "markdownDescription": "Denies the remove_event_listener_sse command without any pre-configured scope."
         },
         {
           "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-ping`",

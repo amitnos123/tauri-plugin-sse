@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-remove-event-listener-sse"
+description = "Enables the remove_event_listener_sse command without any pre-configured scope."
+commands.allow = ["remove_event_listener_sse"]
+
+[[permission]]
+identifier = "deny-remove-event-listener-sse"
+description = "Denies the remove_event_listener_sse command without any pre-configured scope."
+commands.deny = ["remove_event_listener_sse"]
