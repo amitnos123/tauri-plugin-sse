@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-sse"
-version = "0.1.0"
+version = "0.1.1"
 authors = [ "Amit Sami Nosatzki" ]
 description = "A simple Tauri plugin for Server-Sent Events (SSE), enabling real-time, one-way updates from server to your Tauri frontend."
 license = "Apache-2.0 OR MIT"
