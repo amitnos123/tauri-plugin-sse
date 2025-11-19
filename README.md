@@ -55,7 +55,7 @@ This project uses the [`sse_client`](https://crates.io/crates/sse-client) crate 
 import EventSource from "tauri-plugin-sse";
 
 // Create connection to server endpoint
-const source = new EventSource("https://example.com/events");
+const source = new EventSource("https://sse.dev/test");
 
 // Handle on establishing connection
 source.onopen = () => {
@@ -90,7 +90,7 @@ source.close();
 //  TODO: Add use of right modules
 
 // Create connection to server endpoint
-let event_source = EventSource::new("http://event-stream-address/sub").unwrap();
+let event_source = EventSource::new("https://sse.dev/test").unwrap();
 
 // Handle on establishing connection
 event_source.on_open(|| {
