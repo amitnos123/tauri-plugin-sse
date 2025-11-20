@@ -1,7 +1,7 @@
 {
   "name": "tauri-plugin-sse-api",
-  "version": "0.1.0",
-  "author": "You",
+  "version": "0.1.1",
+  "author": "Amit Sami Nosatzki",
   "description": "",
   "type": "module",
   "types": "./dist-js/index.d.ts",
