@@ -34,7 +34,7 @@ This project uses the [`sse_client`](https://crates.io/crates/sse-client) crate 
 - NPM Package: https://www.npmjs.com/package/tauri-plugin-sse-api
   - `npm install tauri-plugin-sse-api`
   
-- YARN Package: 
+- YARN Package:  https://classic.yarnpkg.com/en/package/tauri-plugin-sse-api
   - `yarn install tauri-plugin-sse-api`
 
 - PNPM Package: 
