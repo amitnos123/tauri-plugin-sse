@@ -1,6 +1,7 @@
 # Tauri Plugin SSE
 
 ![Crates.io Version](https://img.shields.io/crates/v/tauri-plugin-sse)
+[![npm version](https://img.shields.io/npm/v/tauri-plugin-sse-api.svg)](https://www.npmjs.com/package/tauri-plugin-sse-api)
 ![License](https://img.shields.io/badge/License-MIT%20or%20Apache%202-green.svg)
 
 [Server-Sent Events (SSE)](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events) is a web technology that allows a server to push real-time updates to a client over a long-lived HTTP connection.
