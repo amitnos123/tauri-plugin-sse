@@ -1,15 +1,4 @@
-use tauri::{
-    Emitter,
-    Manager,
-    AppHandle,
-    command,
-    Runtime,
-    async_runtime::Mutex,
-    ipc::{
-        CommandScope,
-        GlobalScope
-    }
-};
+use tauri::{Emitter, Manager, AppHandle, command, Runtime, async_runtime::Mutex};
 
 use std::collections::HashMap;
 
@@ -18,8 +7,6 @@ use sse_client::EventSource;
 
 use crate::models::*;
 use crate::Result;
-
-use crate::scope::{Entry, Scope};
 
 pub(crate) fn event_full_name(url: &str, name: &str) -> String {
     let event_start_name = "tauri-plugin-sse-";
@@ -52,37 +39,19 @@ pub struct AppState {
 pub(crate) async fn open_sse<R: Runtime>(
     app: AppHandle<R>,
     url: String,
-    command_scope: CommandScope<Entry>,
-    global_scope: GlobalScope<Entry>
 ) -> Result<bool> {
-    if Scope::new(
-                command_scope
-                    .allows()
-                    .iter()
-                    .chain(global_scope.allows())
-                    .collect(),
-                command_scope
-                    .denies()
-                    .iter()
-                    .chain(global_scope.denies())
-                    .collect(),
-            )
-            .is_allowed(&url::Url::parse(&url).unwrap())
-            {
-                let state: tauri::State<'_, Mutex<AppState>> = app.state::<Mutex<AppState>>();
+    let state: tauri::State<'_, Mutex<AppState>> = app.state::<Mutex<AppState>>();
 
-                // Create a new EventSource instance for the given URL.
-                let event_source = EventSource::new(&url).unwrap();
+    // Create a new EventSource instance for the given URL.
+    let event_source = EventSource::new(&url).unwrap();
 
-                println!("Opening SSE connection to {url}");
+    println!("Opening SSE connection to {url}");
 
-                // Lock the mutex to mutably access the state.
-                let mut state = state.lock().await;
-                state.events.insert(url, event_source);
+    // Lock the mutex to mutably access the state.
+    let mut state = state.lock().await;
+    state.events.insert(url, event_source);
 
-                return Ok(true);
-            }
-    return Ok(false);
+    Ok(true)
 }
 
 #[command]

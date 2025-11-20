@@ -12,7 +12,6 @@ mod mobile;
 mod commands;
 mod error;
 mod models;
-mod scope;
 
 pub use error::{Error, Result};
 
