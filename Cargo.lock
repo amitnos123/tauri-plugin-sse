@@ -687,7 +687,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
 dependencies = [
  "libc",
- "windows-sys 0.59.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -2773,7 +2773,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.59.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -3494,11 +3494,14 @@ dependencies = [
 name = "tauri-plugin-sse"
 version = "0.1.1"
 dependencies = [
+ "regex",
  "serde",
  "sse-client",
  "tauri",
  "tauri-plugin",
  "thiserror 2.0.17",
+ "url 2.5.7",
+ "urlpattern 0.4.1",
 ]
 
 [[package]]
@@ -3586,7 +3589,7 @@ dependencies = [
  "thiserror 2.0.17",
  "toml 0.9.8",
  "url 2.5.7",
- "urlpattern",
+ "urlpattern 0.3.0",
  "uuid",
  "walkdir",
 ]
@@ -3612,7 +3615,7 @@ dependencies = [
  "getrandom 0.3.4",
  "once_cell",
  "rustix",
- "windows-sys 0.59.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -4049,6 +4052,18 @@ dependencies = [
  "regex",
  "serde",
  "unic-ucd-ident",
+ "url 2.5.7",
+]
+
+[[package]]
+name = "urlpattern"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "957a88ad1abd5d13336275adb17d4f9b6a2404f3baed2e075e0b026dc0b2b58d"
+dependencies = [
+ "icu_properties",
+ "regex",
+ "serde",
  "url 2.5.7",
 ]
 

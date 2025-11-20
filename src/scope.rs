@@ -1,5 +1,7 @@
 // Taken from file plugins/http/src/scope.rs in repository tauri-apps/plugins-workspace
 
+use std::sync::Arc;
+
 use serde::{Deserialize, Deserializer};
 use url::Url;
 use urlpattern::{UrlPattern, UrlPatternMatchInput};
@@ -52,5 +54,38 @@ impl<'de> Deserialize<'de> for Entry {
                 })?,
             })
         })
+    }
+}
+
+#[derive(Debug)]
+pub struct Scope<'a> {
+    allowed: Vec<&'a Arc<Entry>>,
+    denied: Vec<&'a Arc<Entry>>,
+}
+
+impl<'a> Scope<'a> {
+    /// Creates a new scope from the scope configuration.
+    pub(crate) fn new(allowed: Vec<&'a Arc<Entry>>, denied: Vec<&'a Arc<Entry>>) -> Self {
+        Self { allowed, denied }
+    }
+
+    /// Determines if the given URL is allowed on this scope.
+    pub fn is_allowed(&self, url: &Url) -> bool {
+        let denied = self.denied.iter().any(|entry| {
+            entry
+                .url
+                .test(UrlPatternMatchInput::Url(url.clone()))
+                .unwrap_or_default()
+        });
+        if denied {
+            false
+        } else {
+            self.allowed.iter().any(|entry| {
+                entry
+                    .url
+                    .test(UrlPatternMatchInput::Url(url.clone()))
+                    .unwrap_or_default()
+            })
+        }
     }
 }
