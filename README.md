@@ -30,10 +30,10 @@ This project uses the [`sse_client`](https://crates.io/crates/sse-client) crate 
 
 - Crate: https://crates.io/crates/tauri-plugin-sse
   - `cargo add tauri-plugin-sse`
-<!---
 - NPM Package: https://www.npmjs.com/package/tauri-plugin-sse-api
   - `npm install tauri-plugin-sse-api`
   
+<!---
 - YARN Package: 
   - `yarn install tauri-plugin-sse-api`
 
