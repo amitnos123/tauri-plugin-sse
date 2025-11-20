@@ -34,13 +34,13 @@ This project uses the [`sse_client`](https://crates.io/crates/sse-client) crate 
 - NPM Package: https://www.npmjs.com/package/tauri-plugin-sse-api
   - `npm install tauri-plugin-sse-api`
   
-<!---
 - YARN Package: 
   - `yarn install tauri-plugin-sse-api`
 
 - PNPM Package: 
   - `pnpm install tauri-plugin-sse-api`
 
+<!---
 - DENO Package: 
   - `deno install tauri-plugin-sse-api`
 
